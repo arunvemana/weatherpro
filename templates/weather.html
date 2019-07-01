@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{%  block context %}
+{#<h1>{{ weatherdetails }}</h1>#}
+<div class="container text-center" style="padding: 20px;">
+    <form method="POST" action="{% url 'getinfo' %}">
+        {% csrf_token %}
+    <span style="padding-right: 10px;"><label><b>City Name: <b></b></label>
+        {{ weatherdetails.form.city }}</span>
+    <span style="padding-right: 20px;"> <label><b>Temperature Units: </b></label>
+      <select class="selectpicker" data-style="btn-info" name="TempUnits">
+          {% for i in weatherdetails.form.TempUnits %}
+              {{ i }}
+          {% endfor %}
+      </select> </span><br>
+    {#    {%  for i in weatherdetails.w.items %}#}
+    {#        <p>{{i.1}}</p>#}
+    {#    {% endfor %}#}
+        <button type="submit">get results</button>
+    </form>
+</div>
+    <div class="container col-md-4"  style="padding:20px;">
+    <div class="card card-default">
+        <div class="card-header text-center">{{ weatherdetails.form.city.value }}</div>
+        <div class="card-body">
+            <div style="position:relative;float: left;width: 41.66666667%;">
+                <img src="{{ weatherdetails.logo }}" class="img-responsive">
+                <label>{{ weatherdetails.status }}</label>
+            </div>
+            <div style="position: relative; float: right;width: 58.33333333%;">
+                {% if  weatherdetails.form.TempUnits.value.0  == 'fahrenheit' %}
+                <span><label style="padding-right: 10px;"><b>Temp:</b></label>{{ weatherdetails.w.temp }}℉</span><br>
+                <span><label style="padding-right: 10px;"><b>Min Temp:</b></label>{{ weatherdetails.w.temp_min }}℉</span><br>
+                <span><label style="padding-right: 10px;"><b>Max Temp:</b></label>{{ weatherdetails.w.temp_max }}℉ </span><br>
+                {% else %}
+                <span><label style="padding-right: 10px;"><b>Temp:</b></label>{{ weatherdetails.w.temp }}℃</span><br>
+                <span><label style="padding-right: 10px;"><b>Min Temp:</b></label>{{ weatherdetails.w.temp_min }}℃</span><br>
+                <span><label style="padding-right: 10px;"><b>Max Temp:</b></label>{{ weatherdetails.w.temp_max }}℃</span><br>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+        </div>
+
+{% endblock %}
